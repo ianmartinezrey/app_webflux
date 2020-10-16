@@ -13,8 +13,8 @@ aws ec2 describe-instances --filters "Name=instance.group-name,Values=$groupName
 
 for (( c=0; c<$qtyInst; c++ ))
 do  
-	idinstance=$(jq -r '.[$c].InstanceId' instances.json)
-	dns=$(jq -r '.[$c].PublicDnsName' instances.json)
+	idinstance=$(jq -r '.['$c'].InstanceId' instances.json)
+	dns=$(jq -r '.['$c'].PublicDnsName' instances.json)
 	ssh -i "MyKeyPair.pem" ec2-user@$dns "sudo yum install -y git"
 	ssh -i "MyKeyPair.pem" ec2-user@$dns "git clone https://github.com/ianmartinezrey/app_webflux app_webflux"
 	ssh -i "MyKeyPair.pem" ec2-user@$dns "cd app_webflux && java -jar target/turnos-0.0.1-SNAPSHOT.jar"
